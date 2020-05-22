@@ -1,6 +1,6 @@
 provider "aws" {
   region = "us-east-1"
-  version = "~> 2.63"
+  version = "2.63"
 }
 
 resource "aws_kms_key" "mykey" {
