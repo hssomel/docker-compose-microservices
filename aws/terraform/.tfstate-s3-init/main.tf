@@ -11,7 +11,7 @@ resource "aws_kms_key" "terraform_state_s3_bucket_kms_key" {
 module "s3_bucket" {
   source = "terraform-aws-modules/s3-bucket/aws"
   version = "1.6.0"
-  bucket = "gurkamal-terraform-state"
+  bucket = s3_bucket_name_terraform_state
   acl = "private"
   force_destroy = true
   versioning = {
@@ -30,7 +30,7 @@ module "s3_bucket" {
 module "dynamodb" {
   source = "cloudposse/dynamodb/aws"
   version = "0.15.0"
-  name = "gurkamal-terraform-locks"
+  name = var.dynamodb_name_terraform_state_locks
   billing_mode = "PAY_PER_REQUEST"
   hash_key = "LockID"
   dynamodb_attributes = [
