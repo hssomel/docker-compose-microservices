@@ -13,6 +13,12 @@ kops update cluster "${DEV_CLUSTER}" \
   --state="${KOPS_STATE_STORE}" \
   --yes
 
+# Needed to fix TLS issue with this version of kops
+# https://kops.sigs.k8s.io/advisories/etcd-manager-certificate-expiration/
+kops update cluster --yes
+kops rolling-update cluster --instance-group-roles=Master
+
+
   # --api-loadbalancer-type="public" \
   # --associate-public-ip="false" \
   # --bastion \
