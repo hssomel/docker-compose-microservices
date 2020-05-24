@@ -18,11 +18,6 @@ provider "aws" {
   version = "2.63"
 }
 
-resource "aws_kms_key" "s3_kms_key" {
-  description = "KMS key is used to encrypt s3 bucket for terraform state store"
-  deletion_window_in_days = 7
-}
-
 module "s3_bucket" {
   source = "terraform-aws-modules/s3-bucket/aws"
   version = "1.6.0"
@@ -35,8 +30,7 @@ module "s3_bucket" {
   server_side_encryption_configuration = {
     rule = {
       apply_server_side_encryption_by_default = {
-        kms_master_key_id = aws_kms_key.s3_kms_key.arn
-        sse_algorithm = "aws:kms"
+        sse_algorithm = "AES256"
       }
     }
   }

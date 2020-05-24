@@ -9,34 +9,27 @@ variable "kops_state_store_s3" {
 }
 
 
-variable "route53_zone_name" {
-  type = string
-  default = "company.com"
-}
+# variable "route53_zone_name" {
+#   type = string
+#   default = "company.com"
+# }
 
 
+# variable "dev_vpc" {
+#   type = string
+#   default = "kops-state-store-company"
+# }
 
-
-variable "dev_vpc" {
-  type = string
-  default = "kops-state-store-company"
-}
-
-variable "prod_vpc" {
-  type = string
-  default = "kops-state-store-company"
-}
+# variable "prod_vpc" {
+#   type = string
+#   default = "kops-state-store-company"
+# }
 
 
 
 provider "aws" {
   region = var.aws_region
   version = "2.63"
-}
-
-resource "aws_kms_key" "s3_kms_key" {
-  description = "KMS key is used to encrypt bucket for kops state store"
-  deletion_window_in_days = 7
 }
 
 module "s3_bucket" {
@@ -51,8 +44,7 @@ module "s3_bucket" {
   server_side_encryption_configuration = {
     rule = {
       apply_server_side_encryption_by_default = {
-        kms_master_key_id = aws_kms_key.s3_kms_key.arn
-        sse_algorithm = "aws:kms"
+        sse_algorithm = "AES256"
       }
     }
   }
@@ -60,25 +52,25 @@ module "s3_bucket" {
 
 
 
-module "dev_cluster_domain" {
-  source  = "cloudposse/route53-cluster-zone/aws"
-  version = "0.4.0"
-  # insert the 3 required variables here
-  name = "k8s"
-  namespace = ""
-  stage = "dev"
-  parent_zone_name = var.route53_zone_name
-}
+# module "dev_cluster_domain" {
+#   source  = "cloudposse/route53-cluster-zone/aws"
+#   version = "0.4.0"
+#   # insert the 3 required variables here
+#   name = "k8s"
+#   namespace = ""
+#   stage = "dev"
+#   parent_zone_name = var.route53_zone_name
+# }
 
-module "prod_cluster_domain" {
-  source  = "cloudposse/route53-cluster-zone/aws"
-  version = "0.4.0"
-  # insert the 3 required variables here
-  name = "k8s"
-  namespace = ""
-  stage = "prod"
-  parent_zone_name = var.route53_zone_name
-}
+# module "prod_cluster_domain" {
+#   source  = "cloudposse/route53-cluster-zone/aws"
+#   version = "0.4.0"
+#   # insert the 3 required variables here
+#   name = "k8s"
+#   namespace = ""
+#   stage = "prod"
+#   parent_zone_name = var.route53_zone_name
+# }
 
 
 # module "vpc_dev" {

@@ -1,28 +1,35 @@
 #!/bin/bash
 
 DIRNAME="$(dirname "$(readlink -f "$0")")"
-source ${DIRNAME}/../config
+source ${DIRNAME}/config
 
-kops create cluster \
-  --name="${KOPS_CLUSTER_NAME}" \
+kops create cluster "${DEV_CLUSTER}" \
   --state="${KOPS_STATE_STORE}" \
-  --api-loadbalancer-type="internal" \
-  --associate-public-ip="false" \
-  --bastion \
   --cloud="aws" \
-  --dns="private" \
-  --encrypt-etcd-storage \
-  --master-count="${MASTER_NODE_COUNT}" \
-  --master-size="${MASTER_NODE_SIZE}" \
-  --master-volume-size="${MASTER_NODE_VOLUME_SIZE_IN_GB}" \
-  --master-zones="${ZONES}" \
-  --networking="weave" \
-  --node-count="${WORKER_NODE_COUNT}"\
-  --node-size="${WORKER_NODE_SIZE}" \
-  --node-volume-size="${WORKER_NODE_VOLUME_SIZE_IN_GB}" \
-  --topology="private" \
   --zones="${ZONES}" \
+  --image="ami-068663a3c619dd892"
 
+kops update cluster "${DEV_CLUSTER}" \
+  --state="${KOPS_STATE_STORE}" \
+  --yes
+
+  # --api-loadbalancer-type="public" \
+  # --associate-public-ip="false" \
+  # --bastion \
+  # --master-count="${MASTER_NODE_COUNT}" \
+  # --master-size="${MASTER_NODE_SIZE}" \
+  # --master-volume-size="${MASTER_NODE_VOLUME_SIZE_IN_GB}" \
+  # --master-zones="${ZONES}" \
+  # --networking="weave" \
+  # --node-count="${WORKER_NODE_COUNT}"\
+  # --node-size="${WORKER_NODE_SIZE}" \
+  # --node-volume-size="${WORKER_NODE_VOLUME_SIZE_IN_GB}" \
+  # --topology="private" \
+
+
+
+  # --dns="public" \
+  # --encrypt-etcd-storage \
   # --target "terraform"
 
 

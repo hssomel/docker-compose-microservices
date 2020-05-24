@@ -1,9 +1,8 @@
 #!/bin/bash
 
 DIRNAME="$(dirname "$(readlink -f "$0")")"
-source ${DIRNAME}/../config
+source ${DIRNAME}/config
 
-kops delete cluster \
-  --name "${KOPS_CLUSTER_NAME}" \
+kops delete cluster "${DEV_CLUSTER}" \
   --state="${KOPS_STATE_STORE}" \
   --yes

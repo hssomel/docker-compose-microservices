@@ -1,0 +1,27 @@
+#!/bin/bash
+
+################################################################################
+# TWEAK KOPS CONFIG HERE
+################################################################################
+
+export KOPS_STATE_STORE="s3://kops-state-store-gurkamalsingh"
+
+# A DNS used for Cluster Name, AWS s3 buckets, and AWS DynamoDB Table
+export PROD_CLUSTER="prod.k8s.local"
+export DEV_CLUSTER="dev.k8s.local"
+
+# # Resource location
+# # Must use odd number of zones (Kops requirement for HA Masters)
+export ZONES="us-east-1a"
+
+# # Master Node Specs
+# export MASTER_NODE_COUNT="3"
+# export MASTER_NODE_SIZE="m5.large"
+# export MASTER_NODE_VOLUME_SIZE_IN_GB="100"
+# export MASTER_NODE_ZONES="us-east-1a,us-east-1b,us-east-1c"
+
+# # Worker Node Specs
+# export WORKER_NODE_COUNT="3"
+# export WORKER_NODE_SIZE="m5.large"
+# export WORKER_NODE_VOLUME_SIZE_IN_GB="100"
+# export MASTER_NODE_ZONES="us-east-1a,us-east-1b,us-east-1c"
