@@ -1,8 +1,3 @@
-provider "aws" {
-  region = "us-east-1"
-  version = "2.63"
-}
-
 variable "s3_bucket_name_terraform_state" {
   type = string
   default = "tfstate.gurkamalsingh.com"
@@ -11,6 +6,11 @@ variable "s3_bucket_name_terraform_state" {
 variable "dynamodb_name_terraform_state_locks" {
   type = string
   default = "tfstate-locks.gurkamalsingh.com"
+}
+
+provider "aws" {
+  region = "us-east-1"
+  version = "2.63"
 }
 
 resource "aws_kms_key" "terraform_state_s3_bucket_kms_key" {
