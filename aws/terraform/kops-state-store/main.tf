@@ -3,14 +3,8 @@ provider "aws" {
   version = "2.63"
 }
 
-terraform {
-  backend "s3" {
-    bucket         = "gurkamal-terraform-state"
-    key            = "kops-state-store.tfstate"
-    region         = "us-east-1"
-    dynamodb_table = "gurkamal-terraform-locks"
-    encrypt        = true
-  }
+variable "s3_bucket_name_kops_state" {
+  type = string
 }
 
 resource "aws_kms_key" "kops_state_s3_bucket_kms_key" {
@@ -21,7 +15,7 @@ resource "aws_kms_key" "kops_state_s3_bucket_kms_key" {
 module "s3_bucket" {
   source = "terraform-aws-modules/s3-bucket/aws"
   version = "1.6.0"
-  bucket = "gurkamal-kops-state"
+  bucket = var.s3_bucket_name_kops_state
   acl = "private"
   force_destroy = true
   versioning = {

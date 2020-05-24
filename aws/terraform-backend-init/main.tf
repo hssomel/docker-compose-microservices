@@ -3,6 +3,16 @@ provider "aws" {
   version = "2.63"
 }
 
+variable "s3_bucket_name_terraform_state" {
+  type = string
+  default = "tfstate.gurkamalsingh.com"
+}
+
+variable "dynamodb_name_terraform_state_locks" {
+  type = string
+  default = "tfstate-locks.gurkamalsingh.com"
+}
+
 resource "aws_kms_key" "terraform_state_s3_bucket_kms_key" {
   description = "KMS key is used to encrypt s3 bucket for terraform state store"
   deletion_window_in_days = 7
@@ -11,7 +21,7 @@ resource "aws_kms_key" "terraform_state_s3_bucket_kms_key" {
 module "s3_bucket" {
   source = "terraform-aws-modules/s3-bucket/aws"
   version = "1.6.0"
-  bucket = s3_bucket_name_terraform_state
+  bucket = var.s3_bucket_name_terraform_state
   acl = "private"
   force_destroy = true
   versioning = {

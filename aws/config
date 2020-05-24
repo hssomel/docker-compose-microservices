@@ -29,9 +29,7 @@ export WORKER_NODE_VOLUME_SIZE_IN_GB="100"
 ################################################################################
 # Mandatory config vars for Terraform and Kops
 ################################################################################
-# terraform setup
-export TF_VAR_s3_bucket_name_terraform_state="tfstate.${KUBERNETES_DNS}"
-export TF_VAR_dynamodb_name_terraform_state_locks="tfstate-locks.${KUBERNETES_DNS}"
+# terraform vars
 export TF_VAR_s3_bucket_name_kops_state="kops-state-store.${KUBERNETES_DNS}"
 # kops setup
 export KOPS_CLUSTER_NAME="${KUBERNETES_DNS}"
