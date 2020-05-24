@@ -1,0 +1,95 @@
+apiVersion: kops.k8s.io/v1alpha2
+kind: Cluster
+metadata:
+  creationTimestamp: "2020-05-24T14:05:05Z"
+  name: k8s.dev.gurkamalsingh.com
+spec:
+  api:
+    loadBalancer:
+      type: Public
+  authorization:
+    rbac: {}
+  channel: stable
+  cloudProvider: aws
+  configBase: s3://kops-state-store-gurkamalsingh/k8s.dev.gurkamalsingh.com
+  etcdClusters:
+  - cpuRequest: 200m
+    etcdMembers:
+    - encryptedVolume: true
+      instanceGroup: master-us-east-1a
+      name: a
+    - encryptedVolume: true
+      instanceGroup: master-us-east-1b
+      name: b
+    - encryptedVolume: true
+      instanceGroup: master-us-east-1c
+      name: c
+    # IMPORTANT: https://kops.sigs.k8s.io/advisories/etcd-manager-certificate-expiration
+    manager:
+      image: kopeio/etcd-manager:3.0.20200428
+    memoryRequest: 100Mi
+    name: main
+  - cpuRequest: 100m
+    etcdMembers:
+    - encryptedVolume: true
+      instanceGroup: master-us-east-1a
+      name: a
+    - encryptedVolume: true
+      instanceGroup: master-us-east-1b
+      name: b
+    - encryptedVolume: true
+      instanceGroup: master-us-east-1c
+      name: c
+    # IMPORTANT: https://kops.sigs.k8s.io/advisories/etcd-manager-certificate-expiration
+    manager:
+      image: kopeio/etcd-manager:3.0.20200428
+    memoryRequest: 100Mi
+    name: events
+  iam:
+    allowContainerRegistry: true
+    legacy: false
+  kubelet:
+    anonymousAuth: false
+  kubernetesApiAccess:
+  - 0.0.0.0/0
+  kubernetesVersion: 1.16.9
+  masterPublicName: api.k8s.dev.gurkamalsingh.com
+  networkCIDR: 172.20.0.0/16
+  networking:
+    weave:
+      mtu: 8912
+  nonMasqueradeCIDR: 100.64.0.0/10
+  sshAccess:
+  - 0.0.0.0/0
+  subnets:
+  - cidr: 172.20.32.0/19
+    name: us-east-1a
+    type: Private
+    zone: us-east-1a
+  - cidr: 172.20.64.0/19
+    name: us-east-1b
+    type: Private
+    zone: us-east-1b
+  - cidr: 172.20.96.0/19
+    name: us-east-1c
+    type: Private
+    zone: us-east-1c
+  - cidr: 172.20.0.0/22
+    name: utility-us-east-1a
+    type: Utility
+    zone: us-east-1a
+  - cidr: 172.20.4.0/22
+    name: utility-us-east-1b
+    type: Utility
+    zone: us-east-1b
+  - cidr: 172.20.8.0/22
+    name: utility-us-east-1c
+    type: Utility
+    zone: us-east-1c
+  topology:
+    bastion:
+      bastionPublicName: bastion.k8s.dev.gurkamalsingh.com
+    dns:
+      type: Public
+    masters: private
+    nodes: private

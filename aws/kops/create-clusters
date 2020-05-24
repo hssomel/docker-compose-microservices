@@ -7,16 +7,28 @@ kops create cluster "${DEV_CLUSTER}" \
   --state="${KOPS_STATE_STORE}" \
   --cloud="aws" \
   --zones="${ZONES}" \
-  --image="ami-068663a3c619dd892"
+  --image="ami-068663a3c619dd892" \
+  --associate-public-ip="false" \
+  --bastion \
+  --master-count="${MASTER_NODE_COUNT}" \
+  --master-size="${MASTER_NODE_SIZE}" \
+  --master-volume-size="${MASTER_NODE_VOLUME_SIZE_IN_GB}" \
+  --networking="weave" \
+  --node-count="${WORKER_NODE_COUNT}"\
+  --node-size="${WORKER_NODE_SIZE}" \
+  --node-volume-size="${WORKER_NODE_VOLUME_SIZE_IN_GB}" \
+  --topology="private" \
+  --encrypt-etcd-storage \
 
-kops update cluster "${DEV_CLUSTER}" \
-  --state="${KOPS_STATE_STORE}" \
-  --yes
+
+#kops update cluster "${DEV_CLUSTER}" \
+#  --state="${KOPS_STATE_STORE}" \
+#  --yes
 
 # Needed to fix TLS issue with this version of kops
 # https://kops.sigs.k8s.io/advisories/etcd-manager-certificate-expiration/
-kops update cluster --yes
-kops rolling-update cluster --instance-group-roles=Master
+#kops update cluster --yes
+#kops rolling-update cluster --instance-group-roles=Master
 
 
   # --api-loadbalancer-type="public" \

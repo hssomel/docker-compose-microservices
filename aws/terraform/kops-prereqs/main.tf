@@ -5,7 +5,10 @@ variable "aws_region" {
 
 variable "kops_state_store_s3" {
   type = string
-  default = "kops-state-store-company"
+}
+
+variable "route53_zone_name" {
+  type = string
 }
 
 provider "aws" {
@@ -31,27 +34,25 @@ module "s3_bucket" {
   }
 }
 
+module "dev_cluster_domain" {
+  source  = "cloudposse/route53-cluster-zone/aws"
+  version = "0.4.0"
+  
+  name = "k8s"
+  namespace = ""
+  stage = "dev"
+  parent_zone_name = var.route53_zone_name
+}
 
-
-# module "dev_cluster_domain" {
-#   source  = "cloudposse/route53-cluster-zone/aws"
-#   version = "0.4.0"
-#   # insert the 3 required variables here
-#   name = "k8s"
-#   namespace = ""
-#   stage = "dev"
-#   parent_zone_name = var.route53_zone_name
-# }
-
-# module "prod_cluster_domain" {
-#   source  = "cloudposse/route53-cluster-zone/aws"
-#   version = "0.4.0"
-#   # insert the 3 required variables here
-#   name = "k8s"
-#   namespace = ""
-#   stage = "prod"
-#   parent_zone_name = var.route53_zone_name
-# }
+module "prod_cluster_domain" {
+  source  = "cloudposse/route53-cluster-zone/aws"
+  version = "0.4.0"
+  
+  name = "k8s"
+  namespace = ""
+  stage = "prod"
+  parent_zone_name = var.route53_zone_name
+}
 
 
 # module "vpc_dev" {
