@@ -8,25 +8,6 @@ variable "kops_state_store_s3" {
   default = "kops-state-store-company"
 }
 
-
-# variable "route53_zone_name" {
-#   type = string
-#   default = "company.com"
-# }
-
-
-# variable "dev_vpc" {
-#   type = string
-#   default = "kops-state-store-company"
-# }
-
-# variable "prod_vpc" {
-#   type = string
-#   default = "kops-state-store-company"
-# }
-
-
-
 provider "aws" {
   region = var.aws_region
   version = "2.63"
