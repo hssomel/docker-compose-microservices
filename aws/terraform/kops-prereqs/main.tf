@@ -40,35 +40,6 @@ module "dev_cluster_domain" {
   
   name = "k8s"
   namespace = ""
-  stage = "dev"
+  stage = ""
   parent_zone_name = var.route53_zone_name
 }
-
-module "prod_cluster_domain" {
-  source  = "cloudposse/route53-cluster-zone/aws"
-  version = "0.4.0"
-  
-  name = "k8s"
-  namespace = ""
-  stage = "prod"
-  parent_zone_name = var.route53_zone_name
-}
-
-
-# module "vpc_dev" {
-#   source = "terraform-aws-modules/vpc/aws"
-#   version = "2.33.0"
-
-#   name = "kubernetes-dev"
-#   cidr = "10.0.0.0/16"
-#   # insert the 12 required variables here
-# }
-
-# module "vpc_prod" {
-#   source = "terraform-aws-modules/vpc/aws"
-#   version = "2.33.0"
-
-#   name = "kubernetes-prod"
-#   cidr = "10.0.0.0/16"
-#   # insert the 12 required variables here
-# }
