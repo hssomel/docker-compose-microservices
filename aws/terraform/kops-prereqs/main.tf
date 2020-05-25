@@ -16,6 +16,10 @@ variable "kubernetes_subdomain" {
   default = "k8s"
 }
 
+variable "ssh_public_key" {
+  type = string
+}
+
 provider "aws" {
   region = var.aws_region
   version = "2.63"
@@ -48,4 +52,13 @@ module "kubernetes_subdomain" {
   name                 = var.kubernetes_subdomain
   parent_zone_name     = var.route53_domain_name
   zone_name            = "$${name}.$${parent_zone_name}"
+}
+
+module "key-pair" {
+  source  = "terraform-aws-modules/key-pair/aws"
+  version = "0.4.0"
+
+  key_name = module.kubernetes_subdomain.zone_name
+  public_key = var.ssh_public_key
+  # insert the 2 required variables here
 }
