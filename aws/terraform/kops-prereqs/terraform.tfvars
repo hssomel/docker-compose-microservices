@@ -4,6 +4,3 @@ kops_state_store_s3 = "kops-state-store-gurkamalsingh"
 # cluster domain (route53_domain_name MUST ALREADY be purchased through AWS)
 route53_domain_name = "gurkamalsingh.com"
 kubernetes_subdomain = "k8s"
-
-# generate an SSH keypair and place public key here for access to cluster nodes
-ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCyqO1SkceQd3hITeEA1zj1GAFgzW7M8BM+LCIxeN4bcIzq7MbXhMEfxS2DbfLnD/B9zcsYwJhtAcltGlX6Ew+D/UH2vXkLBrLBtxVY8Rx+kSTw0TeLoWwlX3pLM785gRC9j9GIDgWUI3ePt6NdTmVKLyAREcGr9SJq98iv7Z09zahDC1yhrU5C/W4bAJlsqtLPaT0s61A7kuGYPOHPAOoBHiy/cV1Fghs8AUMBaiPluQje9hgDCxXm7598Xade5PR3sUnNU1YI5k2ojRkbQVIpwkSb04QTemTxrGnV3jWqEmKKqP+QTG476aFdaV5BcCCmxLerjr+uld4YBH3bIjpXmfM184rSR68q47Qak1+/rT3flW3RLjueixv2yW6mY1x1dmBXz+hsc5CzkTt1uSvNRFCZ5inp8RFrdS+ZqJTHp9wvZYgRyRoDQ9mYMzZ25mMzmOvuir1BPNrmeA0nFWqxSpMJxhJkcVLVUesGwdIg/r8LYSa3EylQ0d/4p3dYhRE="
