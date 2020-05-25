@@ -3,13 +3,13 @@
 ################################################################################
 # TWEAK KOPS CONFIG HERE
 ################################################################################
-
+# Cluster config source of truth
 export KOPS_STATE_STORE="s3://kops-state-store-gurkamalsingh"
 
 # A DNS used for Cluster Name, AWS s3 buckets, and AWS DynamoDB Table
-export PROD_CLUSTER="k8s.prod.gurkamalsingh.com"
-export DEV_CLUSTER="k8s.dev.gurkamalsingh.com"
+export CLUSTER_DNS_NAME="gurkamalsingh.com"
 
+# Availability Zones to launch cluster in
 export ZONES="us-east-1a,us-east-1b,us-east-1c"
 
 # Master Node Specs
@@ -18,6 +18,6 @@ export MASTER_NODE_SIZE="m5.large"
 export MASTER_NODE_VOLUME_SIZE_IN_GB="100"
 
 # Worker Node Specs
-export WORKER_NODE_COUNT="3"
+export WORKER_NODE_COUNT="6"
 export WORKER_NODE_SIZE="m5.large"
 export WORKER_NODE_VOLUME_SIZE_IN_GB="100"

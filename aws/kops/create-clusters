@@ -3,7 +3,7 @@
 DIRNAME="$(dirname "$(readlink -f "$0")")"
 source ${DIRNAME}/config
 
-kops create cluster "${DEV_CLUSTER}" \
+kops create cluster "${CLUSTER_DNS_NAME}" \
   --state="${KOPS_STATE_STORE}" \
   --cloud="aws" \
   --zones="${ZONES}" \
@@ -19,6 +19,7 @@ kops create cluster "${DEV_CLUSTER}" \
   --node-volume-size="${WORKER_NODE_VOLUME_SIZE_IN_GB}" \
   --topology="private" \
   --encrypt-etcd-storage \
+  --channel="stable"
 
 
 #kops update cluster "${DEV_CLUSTER}" \
