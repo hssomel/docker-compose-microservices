@@ -22,7 +22,8 @@ kops create cluster "${CLUSTER_DNS_NAME}" \
   --node-volume-size="${WORKER_NODE_VOLUME_SIZE_IN_GB}" \
   --topology="private" \
   --encrypt-etcd-storage \
-  --channel="stable"   
+  --channel="stable" \
+  --ssh-access="${VPC_CIDR}"
 
 
 # Needed to fix TLS issue with this version of kops
