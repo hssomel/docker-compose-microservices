@@ -1,12 +1,12 @@
 apiVersion: kops.k8s.io/v1alpha2
 kind: Cluster
 metadata:
-  generation: 1
+  creationTimestamp: "2020-05-25T22:20:05Z"
   name: k8s.gurkamalsingh.com
 spec:
   api:
     loadBalancer:
-      type: Internal
+      type: Public
   authorization:
     rbac: {}
   channel: stable
@@ -24,6 +24,7 @@ spec:
     - encryptedVolume: true
       instanceGroup: master-us-east-1c
       name: c
+    # https://kops.sigs.k8s.io/advisories/etcd-manager-certificate-expiration/
     manager:
       image: kopeio/etcd-manager:3.0.20200428
     memoryRequest: 100Mi
@@ -39,6 +40,7 @@ spec:
     - encryptedVolume: true
       instanceGroup: master-us-east-1c
       name: c
+    # https://kops.sigs.k8s.io/advisories/etcd-manager-certificate-expiration/
     manager:
       image: kopeio/etcd-manager:3.0.20200428
     memoryRequest: 100Mi
@@ -49,9 +51,8 @@ spec:
   kubelet:
     anonymousAuth: false
   kubernetesApiAccess:
-  - 10.0.0.0/16
+  - 0.0.0.0/0
   kubernetesVersion: 1.16.9
-  masterInternalName: api.internal.k8s.gurkamalsingh.com
   masterPublicName: api.k8s.gurkamalsingh.com
   networkCIDR: 10.0.0.0/16
   networking:
@@ -59,7 +60,7 @@ spec:
       mtu: 8912
   nonMasqueradeCIDR: 100.64.0.0/10
   sshAccess:
-  - 10.0.0.0/16
+  - 0.0.0.0/0
   sshKeyName: k8s.gurkamalsingh.com
   subnets:
   - cidr: 10.0.32.0/19
@@ -99,6 +100,7 @@ spec:
 apiVersion: kops.k8s.io/v1alpha2
 kind: InstanceGroup
 metadata:
+  creationTimestamp: "2020-05-25T22:20:06Z"
   labels:
     kops.k8s.io/cluster: k8s.gurkamalsingh.com
   name: bastions
@@ -120,7 +122,7 @@ spec:
 apiVersion: kops.k8s.io/v1alpha2
 kind: InstanceGroup
 metadata:
-  creationTimestamp: "2020-05-25T03:45:46Z"
+  creationTimestamp: "2020-05-25T22:20:05Z"
   labels:
     kops.k8s.io/cluster: k8s.gurkamalsingh.com
   name: master-us-east-1a
@@ -142,7 +144,7 @@ spec:
 apiVersion: kops.k8s.io/v1alpha2
 kind: InstanceGroup
 metadata:
-  creationTimestamp: "2020-05-25T03:45:47Z"
+  creationTimestamp: "2020-05-25T22:20:05Z"
   labels:
     kops.k8s.io/cluster: k8s.gurkamalsingh.com
   name: master-us-east-1b
@@ -164,7 +166,7 @@ spec:
 apiVersion: kops.k8s.io/v1alpha2
 kind: InstanceGroup
 metadata:
-  creationTimestamp: "2020-05-25T03:45:47Z"
+  creationTimestamp: "2020-05-25T22:20:06Z"
   labels:
     kops.k8s.io/cluster: k8s.gurkamalsingh.com
   name: master-us-east-1c
@@ -186,7 +188,7 @@ spec:
 apiVersion: kops.k8s.io/v1alpha2
 kind: InstanceGroup
 metadata:
-  creationTimestamp: "2020-05-25T03:45:47Z"
+  creationTimestamp: "2020-05-25T22:20:06Z"
   labels:
     kops.k8s.io/cluster: k8s.gurkamalsingh.com
   name: nodes
@@ -194,8 +196,8 @@ spec:
   associatePublicIp: false
   image: ami-068663a3c619dd892
   machineType: m5.large
-  maxSize: 6
-  minSize: 6
+  maxSize: 3
+  minSize: 3
   nodeLabels:
     kops.k8s.io/instancegroup: nodes
   role: Node
