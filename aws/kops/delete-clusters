@@ -3,6 +3,6 @@
 DIRNAME="$(dirname "$(readlink -f "$0")")"
 source ${DIRNAME}/config
 
-kops delete cluster "${DEV_CLUSTER}" \
+kops delete cluster "${CLUSTER_DNS_NAME}" \
   --state="${KOPS_STATE_STORE}" \
   --yes
