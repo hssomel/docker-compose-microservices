@@ -7,7 +7,7 @@ variable "kops_state_store_s3" {
   type = string
 }
 
-variable "route53_zone_name" {
+variable "route53_domain_name" {
   type = string
 }
 
@@ -34,12 +34,8 @@ module "s3_bucket" {
   }
 }
 
-module "dev_cluster_domain" {
-  source  = "cloudposse/route53-cluster-zone/aws"
-  version = "0.4.0"
-  
-  name = "k8s"
-  namespace = ""
-  stage = ""
-  parent_zone_name = var.route53_zone_name
+module "route53_public_zone" {
+  source  = "QuiNovas/route53-public-zone/aws"
+  version = "3.0.1"
+  name = var.route53_domain_name
 }
