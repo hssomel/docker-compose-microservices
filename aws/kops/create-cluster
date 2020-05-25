@@ -25,14 +25,14 @@ kops create cluster "${CLUSTER_DNS_NAME}" \
   --channel="stable"   
 
 
-#kops update cluster "${DEV_CLUSTER}" \
-#  --state="${KOPS_STATE_STORE}" \
-#  --yes
-
 # Needed to fix TLS issue with this version of kops
 # https://kops.sigs.k8s.io/advisories/etcd-manager-certificate-expiration/
-#kops update cluster --yes
-#kops rolling-update cluster --instance-group-roles=Master
+# kops edit cluster $CLUSTER_NAME
+# # Set `spec.etcdClusters[*].manager.image` to `kopeio/etcd-manager:3.0.20200428`
+# kops update cluster # confirm the image is being updated
+# kops update cluster --yes
+# kops rolling-update cluster --instance-group-roles=Master --force
+
 
 
 #   kops create cluster 
