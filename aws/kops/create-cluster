@@ -23,8 +23,8 @@ kops create cluster "${CLUSTER_DNS_NAME}" \
   --topology="private" \
   --encrypt-etcd-storage \
   --channel="stable" \
-  --ssh-access="${VPC_CIDR}" \
-  --kubernetes-version="1.16.9"
+  --kubernetes-version="1.16.9" \
+  --target="terraform"
 
 # Needed to fix TLS issue with this version of kops
 # https://kops.sigs.k8s.io/advisories/etcd-manager-certificate-expiration/
