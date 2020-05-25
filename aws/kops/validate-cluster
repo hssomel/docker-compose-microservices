@@ -3,5 +3,5 @@
 DIRNAME="$(dirname "$(readlink -f "$0")")"
 source ${DIRNAME}/config
 
-kops validate cluster "${DEV_CLUSTER}" \
+kops validate cluster "${CLUSTER_DNS_NAME}" \
   --state="${KOPS_STATE_STORE}" 
