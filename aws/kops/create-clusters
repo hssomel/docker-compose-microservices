@@ -8,18 +8,21 @@ kops create cluster "${CLUSTER_DNS_NAME}" \
   --cloud="aws" \
   --zones="${ZONES}" \
   --image="ami-068663a3c619dd892" \
+  --admin-access="${VPC_CIDR}" \
+  --api-loadbalancer-type string="Internal"
   --associate-public-ip="false" \
   --bastion \
   --master-count="${MASTER_NODE_COUNT}" \
   --master-size="${MASTER_NODE_SIZE}" \
   --master-volume-size="${MASTER_NODE_VOLUME_SIZE_IN_GB}" \
+  --network-cidr="${VPC_CIDR}" \
   --networking="weave" \
   --node-count="${WORKER_NODE_COUNT}"\
   --node-size="${WORKER_NODE_SIZE}" \
   --node-volume-size="${WORKER_NODE_VOLUME_SIZE_IN_GB}" \
   --topology="private" \
   --encrypt-etcd-storage \
-  --channel="stable"
+  --channel="stable"   
 
 
 #kops update cluster "${DEV_CLUSTER}" \
@@ -30,26 +33,6 @@ kops create cluster "${CLUSTER_DNS_NAME}" \
 # https://kops.sigs.k8s.io/advisories/etcd-manager-certificate-expiration/
 #kops update cluster --yes
 #kops rolling-update cluster --instance-group-roles=Master
-
-
-  # --api-loadbalancer-type="public" \
-  # --associate-public-ip="false" \
-  # --bastion \
-  # --master-count="${MASTER_NODE_COUNT}" \
-  # --master-size="${MASTER_NODE_SIZE}" \
-  # --master-volume-size="${MASTER_NODE_VOLUME_SIZE_IN_GB}" \
-  # --master-zones="${ZONES}" \
-  # --networking="weave" \
-  # --node-count="${WORKER_NODE_COUNT}"\
-  # --node-size="${WORKER_NODE_SIZE}" \
-  # --node-volume-size="${WORKER_NODE_VOLUME_SIZE_IN_GB}" \
-  # --topology="private" \
-
-
-
-  # --dns="public" \
-  # --encrypt-etcd-storage \
-  # --target "terraform"
 
 
 #   kops create cluster 
