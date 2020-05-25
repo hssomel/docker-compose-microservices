@@ -11,6 +11,11 @@ variable "route53_domain_name" {
   type = string
 }
 
+variable "kubernetes_subdomain" {
+  type = string
+  default = "k8s"
+}
+
 provider "aws" {
   region = var.aws_region
   version = "2.63"
@@ -34,8 +39,13 @@ module "s3_bucket" {
   }
 }
 
-module "route53_public_zone" {
-  source  = "QuiNovas/route53-public-zone/aws"
-  version = "3.0.1"
-  name = var.route53_domain_name
+module "kubernetes_subdomain" {
+  source  = "cloudposse/route53-cluster-zone/aws"
+  version = "0.4.0"
+
+  namespace            = "eg"
+  stage                = "poc"
+  name                 = var.kubernetes_subdomain
+  parent_zone_name     = var.route53_domain_name
+  zone_name            = "$${name}.$${parent_zone_name}"
 }
