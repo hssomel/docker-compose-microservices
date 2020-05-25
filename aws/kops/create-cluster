@@ -8,7 +8,6 @@ kops create cluster "${CLUSTER_DNS_NAME}" \
   --cloud="aws" \
   --zones="${ZONES}" \
   --image="ami-068663a3c619dd892" \
-  --admin-access="${VPC_CIDR}" \
   --api-loadbalancer-type="public" \
   --associate-public-ip="false" \
   --bastion \
@@ -24,7 +23,7 @@ kops create cluster "${CLUSTER_DNS_NAME}" \
   --encrypt-etcd-storage \
   --channel="stable" \
   --kubernetes-version="1.16.9" \
-  --ssh-public-key="${CLUSTER_DNS_NAME}"
+  # --admin-access="${VPC_CIDR}" \
   # --ssh-access="${VPC_CIDR}"
   # --target="terraform"
 
