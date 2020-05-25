@@ -21,6 +21,6 @@ export MASTER_NODE_SIZE="m5.large"
 export MASTER_NODE_VOLUME_SIZE_IN_GB="100"
 
 # Worker Node Specs
-export WORKER_NODE_COUNT="6"
+export WORKER_NODE_COUNT="3"
 export WORKER_NODE_SIZE="m5.large"
 export WORKER_NODE_VOLUME_SIZE_IN_GB="100"
