@@ -9,7 +9,7 @@ kops create cluster "${CLUSTER_DNS_NAME}" \
   --zones="${ZONES}" \
   --image="ami-068663a3c619dd892" \
   --admin-access="${VPC_CIDR}" \
-  --api-loadbalancer-type string="Internal"
+  --api-loadbalancer-type="Internal" \
   --associate-public-ip="false" \
   --bastion \
   --master-count="${MASTER_NODE_COUNT}" \
