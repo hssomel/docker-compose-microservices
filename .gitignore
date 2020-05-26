@@ -1,3 +1,7 @@
+# SSH Keys
+id_rsa
+id_rsa.pub
+
 
 # Created by https://www.gitignore.io/api/linux,macos,windows,terraform,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=linux,macos,windows,terraform,visualstudiocode
