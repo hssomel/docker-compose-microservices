@@ -9,14 +9,13 @@ kops create cluster "${CLUSTER_DNS_NAME}" \
   --state="${KOPS_STATE_STORE}" \
   --cloud="aws" \
   --zones="${ZONES}" \
-  --api-loadbalancer-type="internal" \
+  --api-loadbalancer-type="public" \
   --associate-public-ip="false" \
   --bastion \
   --master-count="${MASTER_NODE_COUNT}" \
   --master-size="${MASTER_NODE_SIZE}" \
   --master-volume-size="${MASTER_NODE_VOLUME_SIZE_IN_GB}" \
-  --network-cidr="${VPC_CIDR}" \
-  --networking="weave" \
+  --networking="cni" \
   --node-count="${WORKER_NODE_COUNT}"\
   --node-size="${WORKER_NODE_SIZE}" \
   --node-volume-size="${WORKER_NODE_VOLUME_SIZE_IN_GB}" \
@@ -24,8 +23,6 @@ kops create cluster "${CLUSTER_DNS_NAME}" \
   --encrypt-etcd-storage \
   --channel="stable" \
   --kubernetes-version="1.16.9" \
-  --admin-access="${VPC_CIDR}" \
-  --ssh-access="${VPC_CIDR}" \
   --ssh-public-key="${DIRNAME}/id_rsa.pub"
   # --target="terraform" \
   # --image="ami-068663a3c619dd892" \

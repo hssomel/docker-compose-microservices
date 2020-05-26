@@ -9,9 +9,6 @@ export KOPS_STATE_STORE="s3://kops-state-store-gurkamalsingh"
 # A DNS used for Cluster Name, AWS s3 buckets, and AWS DynamoDB Table
 export CLUSTER_DNS_NAME="k8s.gurkamalsingh.com"
 
-# VPC CIDR to use across private network
-export VPC_CIDR="10.0.0.0/16"
-
 # Availability Zones to launch cluster in
 export ZONES="us-east-1a,us-east-1b,us-east-1c"
 
