@@ -1,0 +1,23 @@
+#!/bin/bash
+
+echo "
+################################################################################
+# UNINSTALL JENKINS WITH HELM
+################################################################################
+"
+DIRNAME="$(dirname "$(readlink -f "$0")")"
+NAMESPACE=$( \
+  kubectl get namespaces | grep "^jenkins " \
+)
+
+RELEASE="jenkins"
+
+helm uninstall "${RELEASE}" \
+  --namespace jenkins 
+
+if [[ -z "${NAMESPACE}" ]]
+then
+  echo "jenkins namespace does not exist"
+else
+  kubectl delete namespace jenkins
+fi
