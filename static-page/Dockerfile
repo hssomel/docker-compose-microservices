@@ -1,12 +1,13 @@
-FROM node:12.16.3-alpine3.11
+FROM node:12.16.3-stretch-slim
 
-WORKDIR /usr/src/app
-
-COPY package*.json ./
-
-RUN npm install
+RUN useradd nodeserver
+WORKDIR /opt/app
 
 COPY . .
 
+RUN npm install
 EXPOSE 8080
-CMD [ "node", "index.js" ]
+
+USER nodeserver
+ENTRYPOINT ["node"]
+CMD ["index.js"]
