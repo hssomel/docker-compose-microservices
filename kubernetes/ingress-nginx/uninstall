@@ -1,0 +1,8 @@
+#!/bin/bash
+echo "
+################################################################################
+# UNINSTALL NGINX INGRESS CONTROLLER
+################################################################################
+"
+DIRNAME="$(dirname "$(readlink -f "$0")")"
+kubectl delete -f "${DIRNAME}/aws-nlb-nginx-ingress-controller.yaml"
