@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo "
+################################################################################
+# INSTALL OR UPGRADE JENKINS WITH HELM
+################################################################################
+"
+DIRNAME="$(dirname "$(readlink -f "$0")")"
+NAMESPACE=$( \
+  kubectl get namespaces | grep "^jenkins " \
+)
+
+if [[ -z "${NAMESPACE}" ]]
+then
+  kubectl create namespace jenkins
+fi
+
+RELEASE=jenkins
+
+helm upgrade "${RELEASE}" \
+  "${DIRNAME}/jenkins-helm-chart" \
+  --namespace jenkins \
+  --atomic \
+  --values "${DIRNAME}/jenkins-helm-chart/values.yaml" \
+  --install
