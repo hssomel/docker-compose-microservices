@@ -3,11 +3,12 @@
 DIRNAME="$(dirname "$(readlink -f "$0")")"
 source ${DIRNAME}/config
 
+ssh-keygen -b 2048 -t rsa -f ${DIRNAME}/id_rsa -q -N ""
+
 kops create cluster "${CLUSTER_DNS_NAME}" \
   --state="${KOPS_STATE_STORE}" \
   --cloud="aws" \
   --zones="${ZONES}" \
-  --image="ami-068663a3c619dd892" \
   --api-loadbalancer-type="internal" \
   --associate-public-ip="false" \
   --bastion \
@@ -24,8 +25,10 @@ kops create cluster "${CLUSTER_DNS_NAME}" \
   --channel="stable" \
   --kubernetes-version="1.16.9" \
   --admin-access="${VPC_CIDR}" \
-  --ssh-access="${VPC_CIDR}"
-  # --target="terraform"
+  --ssh-access="${VPC_CIDR}" \
+  --ssh-public-key="${DIRNAME}/id_rsa.pub"
+  # --target="terraform" \
+  # --image="ami-068663a3c619dd892" \
 
 # Needed to fix TLS issue with this version of kops
 # https://kops.sigs.k8s.io/advisories/etcd-manager-certificate-expiration/
