@@ -10,7 +10,6 @@ const assert = require("assert");
 const app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
-app.use("/statistics/assets", express.static(path.join(__dirname, "assets")));
 
 // Config
 const expressPort = process.env.PORT || 3000;
