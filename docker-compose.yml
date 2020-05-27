@@ -1,0 +1,70 @@
+version: "3"
+
+services:
+  statistics:
+    build: ./statistics
+    depends_on:
+      - mongo
+    environment:
+      PORT: 3000
+      MONGO_HOSTNAME: mongo
+      MONGO_PORT: 27017
+      MONGO_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_PASSWORD: ${MONGO_ROOT_PASSWORD}
+    ports:
+      - 3000:3000
+    restart: always
+    volumes:
+      - ./statistics:/usr/src/app
+
+  static:
+    build: ./static
+    ports:
+      - 8080:8080
+    restart: always
+    volumes:
+      - ./static:/usr/src/app
+
+  haproxy:
+    build: ./haproxy
+    depends_on:
+      - statistics
+      - static
+      - mongo
+      - dashboard
+    environment:
+      BASE64_AUTH: YmFzaWNhZG1pbjpiYXNpY3Bhc3N3b3Jk
+    ports:
+      - 5000:80
+    restart: always
+    volumes:
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+
+  mongo:
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+    image: mongo:4.2.6-bionic
+    ports:
+      - 27017:27017
+    restart: always
+
+  dashboard:
+    depends_on:
+      - mongo
+      - statistics
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: ${ME_CONFIG_BASICAUTH_USERNAME}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${ME_CONFIG_BASICAUTH_PASSWORD}
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_ROOT_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_ROOT_PASSWORD}
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_OPTIONS_EDITORTHEME: ambiance
+      ME_CONFIG_REQUEST_SIZE: 100kb
+      ME_CONFIG_SITE_BASEURL: /dashboard/
+    image: mongo-express:0.54.0
+    ports:
+      - 8081:8081
+    restart: always
