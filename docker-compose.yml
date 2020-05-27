@@ -17,22 +17,6 @@ services:
     volumes:
       - ./statistics:/usr/src/app
 
-  statistics_test:
-    build: ./statistics_test
-    depends_on:
-      - mongo
-    environment:
-      PORT: 3001
-      MONGO_HOSTNAME: mongo
-      MONGO_PORT: 27017
-      MONGO_USERNAME: ${MONGO_ROOT_USERNAME}
-      MONGO_PASSWORD: ${MONGO_ROOT_PASSWORD}
-    ports:
-      - 3001:3001
-    restart: always
-    volumes:
-      - ./statistics_test:/usr/src/app
-
   static:
     build: ./static
     ports:
@@ -47,7 +31,7 @@ services:
       - statistics
       - static
       - mongo
-      - dbadmin
+      - dashboard
     ports:
       - 5000:80
     restart: always
@@ -63,7 +47,7 @@ services:
       - 27017:27017
     restart: always
 
-  dbadmin:
+  dashboard:
     depends_on:
       - mongo
       - statistics
@@ -75,7 +59,7 @@ services:
       ME_CONFIG_MONGODB_SERVER: mongo
       ME_CONFIG_OPTIONS_EDITORTHEME: ambiance
       ME_CONFIG_REQUEST_SIZE: 100kb
-      ME_CONFIG_SITE_BASEURL: /dbadmin/
+      ME_CONFIG_SITE_BASEURL: /dashboard/
     image: mongo-express:0.54.0
     ports:
       - 8081:8081
