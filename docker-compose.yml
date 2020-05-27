@@ -32,6 +32,8 @@ services:
       - static
       - mongo
       - dashboard
+    environment:
+      BASE64_AUTH: YmFzaWNhZG1pbjpiYXNpY3Bhc3N3b3Jk
     ports:
       - 5000:80
     restart: always
