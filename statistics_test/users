@@ -1,0 +1,15 @@
+ {
+statistics_1  |   users: [
+statistics_1  |     {
+statistics_1  |       _id: 'admin.admin',
+statistics_1  |       userId: [Binary],
+statistics_1  |       user: 'admin',
+statistics_1  |       db: 'admin',
+statistics_1  |       roles: [Array],
+statistics_1  |       mechanisms: [Array]
+statistics_1  |     }
+statistics_1  |   ],
+statistics_1  |   ok: 1
+statistics_1  | }
+
+

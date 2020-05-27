@@ -1,0 +1,92 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+  meta(name='description' content='')
+  meta(name='author' content='')
+  title MongoDB Statistics Page
+  // Bootstrap CSS
+  link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css' integrity='sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk' crossorigin='anonymous')
+// Navigation
+nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.static-top
+  .container
+    a.navbar-brand(href='#') DevOps Demo
+    button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarResponsive' aria-controls='navbarResponsive' aria-expanded='false' aria-label='Toggle navigation')
+      span.navbar-toggler-icon
+    #navbarResponsive.collapse.navbar-collapse
+      ul.navbar-nav.ml-auto
+        li.nav-item
+          a.nav-link(href='/') Home
+        li.nav-item
+          a.nav-link(href='/statistics') Statistics
+        li.nav-item
+          a.nav-link(href='/dbadmin') Dashboard
+
+// Page Content
+.container
+  .row
+    img(src='assets/mongo.png')
+
+
+    .col-lg-12.text-center
+      h1.mt-5 Database Statistics
+      p.lead
+        | Loaded dynamically from containerized MongoDB instance
+
+      h2.mt-5 Users
+      table.table.table-hover.table-sm.table-bordered
+        thead
+          tr
+            th(scope='col') #
+            th(scope='col') Id
+            th(scope='col') Username
+            th(scope='col') Database
+        tbody
+          each user, index in users.users
+            tr
+              th(scope='row') #{index + 1}
+              td #{user._id}
+              td #{user.user}
+              td #{user.db}
+
+      h2.mt-5 Databases
+      table.table.table-hover.table-sm.table-bordered
+        thead
+          tr
+            th(scope='col') #
+            th(scope='col') Name
+            th(scope='col') Size on Disk
+            th(scope='col') Empty
+        tbody
+          each database, index in databases.databases
+            tr
+              th(scope='row') #{index + 1}
+              td #{database.name}
+              td #{database.sizeOnDisk}
+              td #{database.empty}
+
+      h2.mt-5 Server
+      table.table.table-hover.table-sm.table-bordered
+        thead
+          tr
+            th(scope='col') Private IP
+            th(scope='col') MongoDB Version
+            th(scope='col') Allocator
+            th(scope='col') JavaScript Engine
+            th(scope='col') Distribution
+            th(scope='col') Architecture
+        tbody
+          tr
+            td #{mongoInternalIP}
+            td #{serverInfo.version}
+            td #{serverInfo.allocator}
+            td #{serverInfo.javascriptEngine}
+            td #{serverInfo.buildEnvironment.distmod}
+            td #{serverInfo.buildEnvironment.distarch}
+
+
+// Optional JavaScript
+// jQuery first, then Popper.js, then Bootstrap JS
+script(src='https://code.jquery.com/jquery-3.5.1.slim.min.js' integrity='sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj' crossorigin='anonymous')
+script(src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js' integrity='sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo' crossorigin='anonymous')
+script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js' integrity='sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI' crossorigin='anonymous')
