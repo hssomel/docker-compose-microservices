@@ -11,21 +11,17 @@ services:
       MONGO_PORT: 27017
       MONGO_USERNAME: ${MONGO_ROOT_USERNAME}
       MONGO_PASSWORD: ${MONGO_ROOT_PASSWORD}
-    image: gurkamal/statistics:dev
+    image: gurkamal/statistics
     ports:
       - 3000:3000
     restart: always
-    volumes:
-      - ./statistics:/usr/src/app
 
   static:
     build: ./static
-    image: gurkamal/static:dev
+    image: gurkamal/static
     ports:
       - 8080:8080
     restart: always
-    volumes:
-      - ./static:/usr/src/app
 
   haproxy:
     build: ./haproxy
@@ -35,13 +31,11 @@ services:
       - mongo
       - dashboard
     environment:
-      BASE64_AUTH: YmFzaWNhZG1pbjpiYXNpY3Bhc3N3b3Jk
-    image: gurkamal/haproxy:dev
+      BASE64_AUTH: ${BASE64_AUTH}
+    image: gurkamal/haproxy
     ports:
       - 5000:80
     restart: always
-    volumes:
-      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
 
   mongo:
     environment:
