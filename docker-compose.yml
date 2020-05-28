@@ -36,8 +36,6 @@ services:
       - dashboard
     deploy:
       replicas: 3
-    environment:
-      BASE64_AUTH: ${BASE64_AUTH_VALUE}
     image: gurkamal/haproxy
     ports:
       - 5000:80

@@ -1,0 +1,332 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kompose.cmd: kompose convert -o out.yaml
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: dashboard
+    name: dashboard
+  spec:
+    ports:
+    - name: "8081"
+      port: 8081
+      targetPort: 8081
+    selector:
+      io.kompose.service: dashboard
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kompose.cmd: kompose convert -o out.yaml
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: haproxy
+    name: haproxy
+  spec:
+    ports:
+    - name: "5000"
+      port: 5000
+      targetPort: 80
+    selector:
+      io.kompose.service: haproxy
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kompose.cmd: kompose convert -o out.yaml
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: mongo
+    name: mongo
+  spec:
+    ports:
+    - name: "27017"
+      port: 27017
+      targetPort: 27017
+    selector:
+      io.kompose.service: mongo
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kompose.cmd: kompose convert -o out.yaml
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: static
+    name: static
+  spec:
+    ports:
+    - name: "8080"
+      port: 8080
+      targetPort: 8080
+    selector:
+      io.kompose.service: static
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kompose.cmd: kompose convert -o out.yaml
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: statistics
+    name: statistics
+  spec:
+    ports:
+    - name: "3000"
+      port: 3000
+      targetPort: 3000
+    selector:
+      io.kompose.service: statistics
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      kompose.cmd: kompose convert -o out.yaml
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: dashboard
+    name: dashboard
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        io.kompose.service: dashboard
+    strategy: {}
+    template:
+      metadata:
+        annotations:
+          kompose.cmd: kompose convert -o out.yaml
+          kompose.version: 1.21.0 (992df58d8)
+        creationTimestamp: null
+        labels:
+          io.kompose.service: dashboard
+      spec:
+        containers:
+        - env:
+          - name: ME_CONFIG_BASICAUTH_PASSWORD
+          - name: ME_CONFIG_BASICAUTH_USERNAME
+          - name: ME_CONFIG_MONGODB_ADMINPASSWORD
+          - name: ME_CONFIG_MONGODB_ADMINUSERNAME
+          - name: ME_CONFIG_MONGODB_ENABLE_ADMIN
+            value: "true"
+          - name: ME_CONFIG_MONGODB_PORT
+            value: "27017"
+          - name: ME_CONFIG_MONGODB_SERVER
+            value: mongo
+          - name: ME_CONFIG_OPTIONS_EDITORTHEME
+            value: ambiance
+          - name: ME_CONFIG_REQUEST_SIZE
+            value: 100kb
+          - name: ME_CONFIG_SITE_BASEURL
+            value: /dashboard/
+          image: mongo-express:0.54.0
+          imagePullPolicy: ""
+          name: dashboard
+          ports:
+          - containerPort: 8081
+          resources: {}
+        restartPolicy: Always
+        serviceAccountName: ""
+        volumes: null
+  status: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      kompose.cmd: kompose convert -o out.yaml
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: haproxy
+    name: haproxy
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        io.kompose.service: haproxy
+    strategy: {}
+    template:
+      metadata:
+        annotations:
+          kompose.cmd: kompose convert -o out.yaml
+          kompose.version: 1.21.0 (992df58d8)
+        creationTimestamp: null
+        labels:
+          io.kompose.service: haproxy
+      spec:
+        containers:
+        - env:
+          - name: BASE64_AUTH
+          image: gurkamal/haproxy
+          imagePullPolicy: ""
+          name: haproxy
+          ports:
+          - containerPort: 80
+          resources: {}
+        restartPolicy: Always
+        serviceAccountName: ""
+        volumes: null
+  status: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      kompose.cmd: kompose convert -o out.yaml
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: mongo
+    name: mongo
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        io.kompose.service: mongo
+    strategy:
+      type: Recreate
+    template:
+      metadata:
+        annotations:
+          kompose.cmd: kompose convert -o out.yaml
+          kompose.version: 1.21.0 (992df58d8)
+        creationTimestamp: null
+        labels:
+          io.kompose.service: mongo
+      spec:
+        containers:
+        - env:
+          - name: MONGO_INITDB_ROOT_PASSWORD
+          - name: MONGO_INITDB_ROOT_USERNAME
+          image: mongo:4.2.6-bionic
+          imagePullPolicy: ""
+          name: mongo
+          ports:
+          - containerPort: 27017
+          resources: {}
+          volumeMounts:
+          - mountPath: /data/db
+            name: mongo-claim0
+        restartPolicy: Always
+        serviceAccountName: ""
+        volumes:
+        - name: mongo-claim0
+          persistentVolumeClaim:
+            claimName: mongo-claim0
+  status: {}
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    creationTimestamp: null
+    labels:
+      io.kompose.service: mongo-claim0
+    name: mongo-claim0
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 100Mi
+  status: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      kompose.cmd: kompose convert -o out.yaml
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: static
+    name: static
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        io.kompose.service: static
+    strategy: {}
+    template:
+      metadata:
+        annotations:
+          kompose.cmd: kompose convert -o out.yaml
+          kompose.version: 1.21.0 (992df58d8)
+        creationTimestamp: null
+        labels:
+          io.kompose.service: static
+      spec:
+        containers:
+        - image: gurkamal/static
+          imagePullPolicy: ""
+          name: static
+          ports:
+          - containerPort: 8080
+          resources: {}
+        restartPolicy: Always
+        serviceAccountName: ""
+        volumes: null
+  status: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      kompose.cmd: kompose convert -o out.yaml
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: statistics
+    name: statistics
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        io.kompose.service: statistics
+    strategy: {}
+    template:
+      metadata:
+        annotations:
+          kompose.cmd: kompose convert -o out.yaml
+          kompose.version: 1.21.0 (992df58d8)
+        creationTimestamp: null
+        labels:
+          io.kompose.service: statistics
+      spec:
+        containers:
+        - env:
+          - name: MONGO_HOSTNAME
+            value: mongo
+          - name: MONGO_PASSWORD
+          - name: MONGO_PORT
+            value: "27017"
+          - name: MONGO_USERNAME
+          - name: PORT
+            value: "3000"
+          image: gurkamal/statistics
+          imagePullPolicy: ""
+          name: statistics
+          ports:
+          - containerPort: 3000
+          resources: {}
+        restartPolicy: Always
+        serviceAccountName: ""
+        volumes: null
+  status: {}
+kind: List
+metadata: {}
+
