@@ -47,6 +47,31 @@ spec:
         }
       }
     }
+    stage('Log into Dockerhub') {
+      steps {
+        container('docker') {
+          sh "docker login --username=\$DOCKERHUB_USERNAME --password=\$DOCKERHUB_PASSWORD"
+        }
+      }
+    }
+    stage('Build & Publish Images to DockerHub') {
+      steps {
+        container('docker') {
+          sh "docker build static -t gurkamal/static:${BUILD_NUMBER}"
+          sh "docker build haproxy -t gurkamal/haproxy:${BUILD_NUMBER}"
+          sh "docker build statistics -t gurkamal/statistics:${BUILD_NUMBER}"
+          sh "docker tag gurkamal/static:${BUILD_NUMBER} gurkamal/static:latest"
+          sh "docker tag gurkamal/haproxy:${BUILD_NUMBER} gurkamal/haproxy:latest"
+          sh "docker tag gurkamal/statistics:${BUILD_NUMBER} gurkamal/statistics:latest"
+          sh "docker push gurkamal/static:${BUILD_NUMBER}"
+          sh "docker push gurkamal/haproxy:${BUILD_NUMBER}"
+          sh "docker push gurkamal/statistics:${BUILD_NUMBER}"
+          sh "docker push gurkamal/static:latest"
+          sh "docker push gurkamal/haproxy:latest"
+          sh "docker push gurkamal/statistics:latest"
+        }
+      }
+    }
     stage('Reset previous dev environment') {
       steps {
         container('docker') {
@@ -79,25 +104,6 @@ spec:
         }
       }
     }   
-    stage('Log into Dockerhub') {
-      steps {
-        container('docker') {
-          sh "docker login --username=\$DOCKERHUB_USERNAME --password=\$DOCKERHUB_PASSWORD"
-        }
-      }
-    }
-    stage('Build & Publish Images to DockerHub') {
-      steps {
-        container('docker') {
-          sh "docker build static -t gurkamal/static:${BUILD_NUMBER}"
-          sh "docker build haproxy -t gurkamal/haproxy:${BUILD_NUMBER}"
-          sh "docker build statistics -t gurkamal/statistics:${BUILD_NUMBER}"
-          sh "docker push gurkamal/static:${BUILD_NUMBER}"
-          sh "docker push gurkamal/haproxy:${BUILD_NUMBER}"
-          sh "docker push gurkamal/statistics:${BUILD_NUMBER}"
-        }
-      }
-    }
     stage('Deploy to Kubernetes') {
       steps {
         container('docker') {

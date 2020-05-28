@@ -1,5 +1,7 @@
 FROM docker:18.09.9
 
+LABEL CI="Jenkins"
+
 RUN apk add --update \
   curl \
   && rm -rf /var/cache/apk/*

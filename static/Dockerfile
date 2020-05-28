@@ -1,5 +1,7 @@
 FROM node:12.16.3-stretch-slim
 
+LABEL CI="Jenkins"
+
 RUN useradd nodeserver
 WORKDIR /usr/src/app
 
