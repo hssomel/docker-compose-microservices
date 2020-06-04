@@ -13,7 +13,7 @@ services:
       MONGO_PORT: 27017
       MONGO_USERNAME: ${MONGO_ROOT_USERNAME}
       MONGO_PASSWORD: ${MONGO_ROOT_PASSWORD}
-    image: gurkamal/statistics:latest
+    image: hssomel/statistics:latest
     ports:
       - 3000:3000
     restart: always
@@ -22,7 +22,7 @@ services:
     build: ./static
     deploy:
       replicas: 3
-    image: gurkamal/static:latest
+    image: hssomel/static:latest
     ports:
       - 8080:8080
     restart: always
@@ -36,7 +36,7 @@ services:
       - dashboard
     deploy:
       replicas: 3
-    image: gurkamal/haproxy:latest
+    image: hssomel/haproxy:latest
     ports:
       - 5000:80
     restart: always
