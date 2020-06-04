@@ -38,7 +38,7 @@ spec:
     stage('Download Repo') {
       steps {
         container('docker') {
-          git credentialsId: '964b7f10-4c8b-425f-8b37-67ad7e96beae', url: 'https://git.toptal.com/screening/gurkamal-singh'
+          git url: 'https://github.com/hssomel/docker-compose-microservices.git'
         }
       }
     }
