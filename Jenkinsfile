@@ -18,15 +18,10 @@ spec:
     volumeMounts:
     - mountPath: /var/run/docker.sock
       name: docker-sock
-    - mountPath: /root/.kube
-      name: kubeconfig
   volumes:
   - name: docker-sock
     hostPath:
       path: /var/run/docker.sock
-  - name: kubeconfig
-    secret:
-      secretName: kubeconfig
 """
     }
   }
