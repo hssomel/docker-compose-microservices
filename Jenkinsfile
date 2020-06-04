@@ -31,8 +31,8 @@ spec:
     MONGO_ROOT_USERNAME = credentials('MONGO_ROOT_USERNAME')
     MONGO_ROOT_PASSWORD = credentials('MONGO_ROOT_PASSWORD')
 
-    DOCKERHUB_USERNAME = credentials('dockerhub-username')
-    DOCKERHUB_PASSWORD = credentials('dockerhub-password')
+    DOCKERHUB_USERNAME = credentials('DOCKERHUB_USERNAME')
+    DOCKERHUB_PASSWORD = credentials('DOCKERHUB_PASSWORD')
   }
   stages {
     stage('Download Repo') {
